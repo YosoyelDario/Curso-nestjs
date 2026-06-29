@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete } from '@nestjs/common';
 
 interface User {
   id: string;
@@ -38,5 +38,19 @@ export class UsersController {
   createUser(@Body() body: User) {
     this.users.push(body);
     return body;
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: string) {
+    const position = this.users.findIndex((user) => user.id === id);
+    if (position === -1) {
+      return {
+        error: 'Usuario no encontrado.',
+      };
+    }
+    this.users.splice(position, 1);
+    return {
+      message: 'Usuario eliminado.',
+    };
   }
 }

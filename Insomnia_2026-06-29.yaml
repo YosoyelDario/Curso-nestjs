@@ -1,0 +1,116 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: My Collection
+meta:
+  id: wrk_ea90c63853ae4c72a41aeef9dcebdb3d
+  created: 1782713667499
+  modified: 1782713667499
+  description: ""
+collection:
+  - url: http://localhost:3000/users/
+    name: get users
+    meta:
+      id: req_a4787a12d6b144f982ba7c404255eff4
+      created: 1782713737493
+      modified: 1782722954065
+      isPrivate: false
+      description: ""
+      sortKey: -1782713737494
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/users/2
+    name: get user
+    meta:
+      id: req_873f82251cd8447593d252d9dc0f97fb
+      created: 1782713790783
+      modified: 1782724139553
+      isPrivate: false
+      description: ""
+      sortKey: -1782713737444
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/users
+    name: create user
+    meta:
+      id: req_b5ab6a84acde4898966c6092b26776dd
+      created: 1782723069073
+      modified: 1782723296513
+      isPrivate: false
+      description: ""
+      sortKey: -1782713737394
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id":  "12131",
+        	"name": "Cristiano Faker",
+        	"email": "cristiano7@example.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/users/2
+    name: delete user
+    meta:
+      id: req_34ecb899988c48d1904dbfc2ddf76a06
+      created: 1782724109040
+      modified: 1782724127250
+      isPrivate: false
+      description: ""
+      sortKey: -1782713737344
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id":  "12131",
+        	"name": "Cristiano Faker",
+        	"email": "cristiano7@example.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_184664fa59c811891304c08c365312a37df8851f
+    created: 1782713667517
+    modified: 1782713667517
+environments:
+  name: Base Environment
+  meta:
+    id: env_184664fa59c811891304c08c365312a37df8851f
+    created: 1782713667506
+    modified: 1782713667506
+    isPrivate: false
