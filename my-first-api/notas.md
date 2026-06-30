@@ -10,6 +10,6 @@ Hello World
 
 [POST] http://localhost:3000/users > Return the user created (201)
 
-[PUT] http://localhost:3000/users/:id > Return status user deleted (200)
+[DELETE] http://localhost:3000/users/:id > Return status user deleted (200)
 
-[DELETE] http://localhost:3000/users/:id
+[PUT] http://localhost:3000/users/:id > Return the user updated (200)
