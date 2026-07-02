@@ -2,14 +2,13 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
-  ConflictException,
   BadRequestException,
 } from '@nestjs/common';
 
 import { User } from './entities/user.entity';
 import { Profile } from './entities/profile.entity';
-import { CreateUserDto, UpdateUserDto } from './user.dto';
-import { QueryFailedError, Repository } from 'typeorm';
+import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -62,42 +61,30 @@ export class UsersService {
     try {
       const user = await this.findOne(id);
       const updatedUser = this.userRepository.merge(user, changes);
-      return this.userRepository.save(updatedUser);
-    } catch (error) {
-      this.handleDatabaseError(error);
+      const savedUser = await this.userRepository.save(updatedUser);
+      return savedUser;
+    } catch {
+      throw new BadRequestException('Error modificando al usuario.');
     }
   }
 
   async delete(id: number) {
-    const user = await this.findOne(id);
-    await this.userRepository.delete(user);
-    return {
-      message: 'Usuario eliminado.',
-    };
+    try {
+      await this.userRepository.delete(id);
+      return { message: 'El usuario fue eliminado' };
+    } catch {
+      throw new BadRequestException('Error eliminando al usuario.');
+    }
   }
 
   private async findOne(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: { profile: true },
+    });
     if (!user) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
     return user;
-  }
-
-  private handleDatabaseError(error: unknown): never {
-    if (error instanceof QueryFailedError) {
-      const pgError = error as QueryFailedError & {
-        code?: string;
-        detail?: string;
-      };
-
-      if (pgError.code === '23505') {
-        throw new ConflictException(
-          pgError.detail ?? 'Ya existe un recurso con esos datos únicos.',
-        );
-      }
-    }
-
-    throw error;
   }
 }
