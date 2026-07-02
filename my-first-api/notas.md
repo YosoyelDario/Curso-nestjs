@@ -8,6 +8,9 @@ Hello World
 [GET] http://localhost:3000/users/2 > Return user with id 2 
 [GET] http://localhost:3000/users/34234asdasd > Return user with id 34234asdasd
 
+
+[GET] http://localhost:3000/users/:id/profile > Return profile with specific id.
+
 [POST] http://localhost:3000/users > Return the user created (201)
 
 [DELETE] http://localhost:3000/users/:id > Return status user deleted (200)
