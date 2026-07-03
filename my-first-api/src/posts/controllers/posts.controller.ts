@@ -12,7 +12,6 @@ import { PostsService } from '../services/posts.service';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { Category } from '../entities/category.entity';
-
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
@@ -31,8 +30,11 @@ export class PostsController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.findOne(id);
   }
-  @Get(':id/categories')
-  findUserPosts(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
+
+  @Get(':id/categories') // Endpoint que obtiene todas las categorías asociadas a un post específico
+  findCategoriesPost(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Category[]> {
     return this.postsService.getCategoriesById(id);
   }
 

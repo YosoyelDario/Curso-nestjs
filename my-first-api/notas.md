@@ -13,13 +13,19 @@ Hello World
 
 [GET] http://localhost:3000/users/:id/profile > Return profile with specific id.
 
-[GET] http://localhost:3000/users/:id/posts > Return posts with specific id
+[GET] http://localhost:3000/users/:id/posts > Return posts with specific id user
+
 
 [POST] http://localhost:3000/users > Return the user created (201)
 
 [DELETE] http://localhost:3000/users/:id > Return status user deleted (200)
 
 [PUT] http://localhost:3000/users/:id > Return the user updated (200)
+
+
+[GET] http://localhost:3000/posts/:id/categories > Return categories for a specific id post
+
+[GET] http://localhost:3000/categories/:id/posts > Return posts for a specific id categories
 
 # DOCKER 
 

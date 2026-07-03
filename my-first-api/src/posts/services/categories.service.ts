@@ -41,6 +41,20 @@ export class CategoriesService {
 
     return category;
   }
+  async getPostsById(id: number) {
+    const category = await this.categoryRepository.findOne({
+      where: { id },
+      relations: {
+        posts: true,
+      },
+    });
+
+    if (!category) {
+      throw new NotFoundException(`Categoría con id ${id} no encontrada`);
+    }
+
+    return category.posts ?? [];
+  }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try {

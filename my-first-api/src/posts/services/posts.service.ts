@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from '../entities/post.entity';
 import { Category } from '../entities/category.entity';
-
 @Injectable()
 export class PostsService {
   constructor(
@@ -49,7 +48,6 @@ export class PostsService {
         user: {
           profile: true,
         },
-        categories: true,
       },
     });
 
@@ -73,7 +71,6 @@ export class PostsService {
     }
     return post.categories ?? [];
   }
-
   async update(id: number, updatePostDto: UpdatePostDto) {
     try {
       const post = await this.findOne(id);

@@ -11,6 +11,7 @@ import {
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
+import { Posts } from '../../posts/entities/post.entity';
 
 @Controller('categories')
 export class CategoriesController {
@@ -29,6 +30,11 @@ export class CategoriesController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.findOne(id);
+  }
+
+  @Get(':id/posts')
+  findPostsCategories(@Param('id', ParseIntPipe) id: number): Promise<Posts[]> {
+    return this.categoriesService.getPostsById(id);
   }
 
   @Put(':id')
