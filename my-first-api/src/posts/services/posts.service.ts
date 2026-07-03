@@ -8,6 +8,7 @@ import { UpdatePostDto } from '../dto/update-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from '../entities/post.entity';
+import { Category } from '../entities/category.entity';
 
 @Injectable()
 export class PostsService {
@@ -21,6 +22,7 @@ export class PostsService {
       const newPost = await this.postRepository.save({
         ...body,
         user: { id: body.userId },
+        categories: body.categoryIds?.map((id) => ({ id })),
       });
       return this.findOne(newPost.id);
     } catch {
@@ -29,7 +31,14 @@ export class PostsService {
   }
 
   async findAll() {
-    const posts = await this.postRepository.find();
+    const posts = await this.postRepository.find({
+      relations: {
+        user: {
+          profile: true,
+        },
+        categories: true,
+      },
+    });
     return posts;
   }
 
@@ -40,6 +49,7 @@ export class PostsService {
         user: {
           profile: true,
         },
+        categories: true,
       },
     });
 
@@ -48,6 +58,20 @@ export class PostsService {
     }
 
     return post;
+  }
+
+  async getCategoriesById(id: number): Promise<Category[]> {
+    const post = await this.postRepository.findOne({
+      where: { id },
+      relations: {
+        categories: true,
+      },
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    return post.categories ?? [];
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
