@@ -5,12 +5,12 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-import { User } from './entities/user.entity';
-import { Profile } from './entities/profile.entity';
-import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
+import { User } from '../entities/user.entity';
+import { Profile } from '../entities/profile.entity';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Posts } from '../posts/entities/post.entity';
+import { Posts } from '../../posts/entities/post.entity';
 
 @Injectable()
 export class UsersService {

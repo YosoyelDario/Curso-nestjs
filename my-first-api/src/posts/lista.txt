@@ -1,0 +1,19 @@
+│   lista.txt
+│   posts.module.ts
+│   
+├───controllers
+│       posts.controller.spec.ts
+│       posts.controller.ts
+│       
+├───dto
+│       create-post.dto.ts
+│       update-post.dto.ts
+│       
+├───entities
+│       category.entity.ts
+│       post.entity.ts
+│       
+└───services
+        posts.service.spec.ts
+        posts.service.ts
+        

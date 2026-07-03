@@ -9,10 +9,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
-import { UsersService } from './users.service';
-import { Profile } from './entities/profile.entity';
-import { Posts } from '../posts/entities/post.entity';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { UsersService } from '../services/users.service';
+import { Profile } from '../entities/profile.entity';
+import { Posts } from '../../posts/entities/post.entity';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
