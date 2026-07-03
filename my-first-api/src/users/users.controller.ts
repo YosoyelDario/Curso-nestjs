@@ -3,15 +3,16 @@ import {
   Controller,
   Get,
   Param,
-  Post,
   Delete,
   Put,
+  Post,
   ParseIntPipe,
 } from '@nestjs/common';
 
 import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
 import { UsersService } from './users.service';
 import { Profile } from './entities/profile.entity';
+import { Posts } from '../posts/entities/post.entity';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -29,6 +30,11 @@ export class UsersController {
   @Get(':id/profile')
   findUserProfile(@Param('id', ParseIntPipe) id: number): Promise<Profile> {
     return this.usersService.getUserProfileById(id);
+  }
+
+  @Get(':id/posts')
+  findUserPosts(@Param('id', ParseIntPipe) id: number): Promise<Posts[]> {
+    return this.usersService.getUserPostsById(id);
   }
 
   @Post()

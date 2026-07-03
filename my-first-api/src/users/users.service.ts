@@ -10,6 +10,7 @@ import { Profile } from './entities/profile.entity';
 import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Posts } from '../posts/entities/post.entity';
 
 @Injectable()
 export class UsersService {
@@ -46,6 +47,20 @@ export class UsersService {
     }
 
     return user.profile;
+  }
+
+  async getUserPostsById(id: number): Promise<Posts[]> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: {
+        posts: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    return user.posts ?? [];
   }
 
   async create(body: CreateUserDto) {

@@ -11,6 +11,8 @@ Hello World
 
 [GET] http://localhost:3000/users/:id/profile > Return profile with specific id.
 
+[GET] http://localhost:3000/users/:id/posts > Return posts with specific id
+
 [POST] http://localhost:3000/users > Return the user created (201)
 
 [DELETE] http://localhost:3000/users/:id > Return status user deleted (200)

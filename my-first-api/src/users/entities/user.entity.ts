@@ -6,10 +6,11 @@ import {
   UpdateDateColumn,
   JoinColumn,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 
 import { Profile } from './profile.entity';
-
+import { Posts } from '../../posts/entities/post.entity';
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -38,4 +39,7 @@ export class User {
   @OneToOne(() => Profile, { nullable: false, cascade: true })
   @JoinColumn({ name: 'profile_id' })
   profile!: Profile;
+
+  @OneToMany(() => Posts, (post) => post.user)
+  posts?: Posts[];
 }
