@@ -7,10 +7,14 @@ import {
   JoinColumn,
   OneToOne,
   OneToMany,
+  BeforeInsert,
 } from 'typeorm';
 
 import { Profile } from './profile.entity';
 import { Posts } from '../../posts/entities/post.entity';
+import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
+
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -19,6 +23,7 @@ export class User {
   @Column({ type: 'varchar', length: 255, unique: true })
   email!: string;
 
+  @Exclude()
   @Column({ type: 'varchar', length: 255 })
   password!: string;
 
@@ -42,4 +47,9 @@ export class User {
 
   @OneToMany(() => Posts, (post) => post.user)
   posts?: Posts[];
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
