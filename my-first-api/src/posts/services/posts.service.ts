@@ -65,12 +65,24 @@ export class PostsService {
         categories: true,
       },
     });
-
     if (!post) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
     return post.categories ?? [];
   }
+
+  async getPostsByCategoryId(categoryId: number) {
+    const posts = await this.postRepository.find({
+      where: {
+        categories: {
+          id: categoryId,
+        },
+      },
+      relations: { user: { profile: true } },
+    });
+    return posts;
+  }
+
   async update(id: number, updatePostDto: UpdatePostDto) {
     try {
       const post = await this.findOne(id);

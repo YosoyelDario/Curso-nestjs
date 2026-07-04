@@ -12,10 +12,14 @@ import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { Posts } from '../../posts/entities/post.entity';
+import { PostsService } from '../../posts/services/posts.service';
 
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(
+    private readonly categoriesService: CategoriesService,
+    private readonly postsService: PostsService,
+  ) {}
 
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
@@ -33,8 +37,10 @@ export class CategoriesController {
   }
 
   @Get(':id/posts')
-  findPostsCategories(@Param('id', ParseIntPipe) id: number): Promise<Posts[]> {
-    return this.categoriesService.getPostsById(id);
+  getPostsByCategoryId(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Posts[]> {
+    return this.postsService.getPostsByCategoryId(id);
   }
 
   @Put(':id')
