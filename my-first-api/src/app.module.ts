@@ -16,7 +16,7 @@ import { PostsModule } from './posts/posts.module';
         password: configService.get('POSTGRES_PASSWORD', { infer: true }),
         database: configService.get('POSTGRES_DB', { infer: true }),
         autoLoadEntities: true,
-        synchronize: true, //POR AHORA SE TIENE COMO TRUE, PARA PRODUCCION NO.
+        synchronize: false, //Se cambia a false, ya que se maneja con migraciones a partir de ahora.
       }),
       inject: [ConfigService],
     }),

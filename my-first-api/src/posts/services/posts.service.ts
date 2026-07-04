@@ -65,9 +65,11 @@ export class PostsService {
         categories: true,
       },
     });
+
     if (!post) {
-      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+      throw new NotFoundException(`Post con id ${id} no encontrado`);
     }
+
     return post.categories ?? [];
   }
 
