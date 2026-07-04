@@ -63,11 +63,18 @@ export class UsersService {
     return user.posts ?? [];
   }
 
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    return user;
+  }
+
   async create(body: CreateUserDto) {
     try {
       const newUser = this.userRepository.create(body);
       const savedUser = await this.userRepository.save(newUser);
-      return savedUser;
+      return this.findOne(savedUser.id);
     } catch {
       throw new BadRequestException('Error creando el usuario.');
     }
