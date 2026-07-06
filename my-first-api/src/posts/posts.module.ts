@@ -6,9 +6,9 @@ import { Posts } from './entities/post.entity';
 import { Category } from './entities/category.entity';
 import { CategoriesController } from './controllers/categories.controller';
 import { CategoriesService } from './services/categories.service';
-
+import { AiModule } from '../ai/ai.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Posts, Category])],
+  imports: [TypeOrmModule.forFeature([Posts, Category]), AiModule],
   controllers: [PostsController, CategoriesController],
   providers: [PostsService, CategoriesService],
   exports: [PostsService, CategoriesService],

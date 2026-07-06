@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -9,18 +10,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Posts } from '../entities/post.entity';
 import { Category } from '../entities/category.entity';
+import { OpenaiService } from '../../ai/services/openai/openai.service';
+import { GetimgAIService } from '../../ai/services/getimg/getimg.service';
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Posts)
     private postRepository: Repository<Posts>,
+    private openaiService: OpenaiService,
+    private getimg: GetimgAIService,
   ) {}
 
-  async create(body: CreatePostDto) {
+  async create(body: CreatePostDto, userId: number) {
     try {
       const newPost = await this.postRepository.save({
         ...body,
-        user: { id: body.userId },
+        user: { id: userId },
         categories: body.categoryIds?.map((id) => ({ id })),
       });
       return this.findOne(newPost.id);
@@ -83,6 +88,28 @@ export class PostsService {
       relations: { user: { profile: true } },
     });
     return posts;
+  }
+
+  async publish(id: number, userId: number) {
+    const post = await this.findOne(id);
+    if (post.user.id !== userId) {
+      throw new ForbiddenException(
+        'No tienes permisos para publicar este post.',
+      );
+    }
+    if (!post.content || !post.title || post.categories?.length === 0) {
+      throw new BadRequestException(
+        'El post no puede ser publicado. Asegúrate de que tenga título, contenido y al menos una categoría.',
+      );
+    }
+    //const summary = await this.openaiService.generateSummary(post.content);
+    const image = await this.getimg.generateImage(post.title);
+    const changes = this.postRepository.merge(post, {
+      isDraft: false,
+      coverImage: image,
+    });
+    const updatedPost = await this.postRepository.save(changes);
+    return this.findOne(updatedPost.id);
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
