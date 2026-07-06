@@ -56,3 +56,9 @@ basado en @posts.service.ts y en @posts.controller.ts crea el CRUD para las cate
         posts.service.ts
         
 
+# Para producción
+
+
+pnpm run build
+pnpm run typeorm migration:run
+pnpm run start:prod
